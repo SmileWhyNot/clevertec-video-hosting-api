@@ -10,6 +10,6 @@
 
     <include file="create-person-table.xml" relativeToChangelogFile="true"/>
     <include file="create-channel-table.xml" relativeToChangelogFile="true"/>
-    <include file="add-person-channel-relationship.xml" relativeToChangelogFile="true"/>
+    <include file="create-subscription-table.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>
