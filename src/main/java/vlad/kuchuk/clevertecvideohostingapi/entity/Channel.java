@@ -6,8 +6,13 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
+import org.apache.commons.lang3.builder.EqualsExclude;
+import org.apache.commons.lang3.builder.HashCodeExclude;
 import org.hibernate.annotations.ColumnDefault;
 import java.time.ZonedDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -23,6 +28,17 @@ public class Channel {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "author_id", referencedColumnName = "id")
     private Person author;
+
+    @ManyToMany
+    @JoinTable(
+            name = "subscriptions",
+            joinColumns = { @JoinColumn(name = "channel_id") },
+            inverseJoinColumns = { @JoinColumn(name = "person_id") }
+    )
+    @ToString.Exclude
+    @EqualsExclude
+    @HashCodeExclude
+    private Set<Person> subscribers = new HashSet<>();
 
     @Column(unique = true)
     @Size(max = 64)

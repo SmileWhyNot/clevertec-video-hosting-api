@@ -6,6 +6,11 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
+import org.apache.commons.lang3.builder.EqualsExclude;
+import org.apache.commons.lang3.builder.HashCodeExclude;
+
+import java.util.HashSet;
 import java.util.Set;
 
 @AllArgsConstructor
@@ -19,17 +24,16 @@ public class Person {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(mappedBy = "author", cascade = CascadeType.PERSIST,
-            fetch = FetchType.LAZY)
-    private Channel channel;
-
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(
         name = "subscriptions",
         joinColumns = { @JoinColumn(name = "person_id") },
         inverseJoinColumns = { @JoinColumn(name = "channel_id") }
     )
-    private Set<Channel> subscriptions;
+    @ToString.Exclude
+    @EqualsExclude
+    @HashCodeExclude
+    private Set<Channel> subscriptions = new HashSet<>();
 
     @Size(max = 64)
     @NotNull
