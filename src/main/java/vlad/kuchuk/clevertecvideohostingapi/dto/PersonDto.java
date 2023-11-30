@@ -12,7 +12,7 @@ import vlad.kuchuk.clevertecvideohostingapi.validator.PersonValidation;
 @AllArgsConstructor
 @NoArgsConstructor
 @Accessors(chain = true)
-@PersonValidation
+@PersonValidation(message = "Person data not valid")
 public class PersonDto {
     private Long id;
     @Size(max = 64)

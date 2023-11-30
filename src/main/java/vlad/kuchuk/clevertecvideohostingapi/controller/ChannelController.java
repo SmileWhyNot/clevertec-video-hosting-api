@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import vlad.kuchuk.clevertecvideohostingapi.dto.ChannelDto;
-import vlad.kuchuk.clevertecvideohostingapi.exceptions.PhotoOperationException;
+import vlad.kuchuk.clevertecvideohostingapi.commonExceptionUtil.exceptions.PhotoOperationException;
 import vlad.kuchuk.clevertecvideohostingapi.service.ChannelService;
 
 import java.io.IOException;

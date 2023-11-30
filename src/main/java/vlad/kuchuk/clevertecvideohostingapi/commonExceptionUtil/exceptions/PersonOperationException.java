@@ -1,4 +1,4 @@
-package vlad.kuchuk.clevertecvideohostingapi.exceptions;
+package vlad.kuchuk.clevertecvideohostingapi.commonExceptionUtil.exceptions;
 
 public class PersonOperationException extends RuntimeException {
     public PersonOperationException() {
