@@ -4,9 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import vlad.kuchuk.clevertecvideohostingapi.dto.PersonDto;
 import vlad.kuchuk.clevertecvideohostingapi.dto.PersonMapper;
-import vlad.kuchuk.clevertecvideohostingapi.entity.Person;
-import vlad.kuchuk.clevertecvideohostingapi.exceptions.PersonNotFoundException;
-import vlad.kuchuk.clevertecvideohostingapi.exceptions.PersonOperationException;
+import vlad.kuchuk.clevertecvideohostingapi.commonExceptionUtil.exceptions.PersonNotFoundException;
+import vlad.kuchuk.clevertecvideohostingapi.commonExceptionUtil.exceptions.PersonOperationException;
 import vlad.kuchuk.clevertecvideohostingapi.repository.PersonRepository;
 
 import java.util.Optional;

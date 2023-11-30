@@ -18,7 +18,7 @@ import java.time.ZonedDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Accessors(chain = true)
-@ChannelValidation
+@ChannelValidation(message = "Channel data not valid")
 public class ChannelDto {
     private Long id;
     @Size(max = 64)

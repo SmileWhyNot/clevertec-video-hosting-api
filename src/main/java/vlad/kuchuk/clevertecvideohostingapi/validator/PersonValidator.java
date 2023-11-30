@@ -5,9 +5,7 @@ import jakarta.validation.ConstraintValidatorContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import vlad.kuchuk.clevertecvideohostingapi.dto.PersonDto;
-import vlad.kuchuk.clevertecvideohostingapi.dto.PersonMapper;
-import vlad.kuchuk.clevertecvideohostingapi.exceptions.AlreadyExistsException;
-import vlad.kuchuk.clevertecvideohostingapi.exceptions.PersonNotFoundException;
+import vlad.kuchuk.clevertecvideohostingapi.commonExceptionUtil.exceptions.AlreadyExistsException;
 import vlad.kuchuk.clevertecvideohostingapi.service.PersonService;
 
 import java.util.Optional;

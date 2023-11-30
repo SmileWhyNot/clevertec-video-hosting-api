@@ -6,9 +6,9 @@ import vlad.kuchuk.clevertecvideohostingapi.dto.ChannelDto;
 import vlad.kuchuk.clevertecvideohostingapi.dto.ChannelMapper;
 import vlad.kuchuk.clevertecvideohostingapi.dto.PersonDto;
 import vlad.kuchuk.clevertecvideohostingapi.dto.PersonMapper;
-import vlad.kuchuk.clevertecvideohostingapi.exceptions.ChannelNotFoundException;
-import vlad.kuchuk.clevertecvideohostingapi.exceptions.ChannelOperationException;
-import vlad.kuchuk.clevertecvideohostingapi.exceptions.PersonNotFoundException;
+import vlad.kuchuk.clevertecvideohostingapi.commonExceptionUtil.exceptions.ChannelNotFoundException;
+import vlad.kuchuk.clevertecvideohostingapi.commonExceptionUtil.exceptions.ChannelOperationException;
+import vlad.kuchuk.clevertecvideohostingapi.commonExceptionUtil.exceptions.PersonNotFoundException;
 import vlad.kuchuk.clevertecvideohostingapi.repository.ChannelRepository;
 
 import java.util.Objects;
