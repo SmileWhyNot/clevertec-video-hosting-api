@@ -1,15 +1,16 @@
 package vlad.kuchuk.clevertecvideohostingapi.dto;
 
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
+import org.mapstruct.*;
 import vlad.kuchuk.clevertecvideohostingapi.entity.Channel;
 
 @Mapper
 public interface ChannelMapper {
 
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "author", ignore = true)
     Channel toEntity(ChannelDto channelDto);
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    @Mapping(target = "author", ignore = true)
+    Channel updateFromDto(ChannelDto channelDto, @MappingTarget Channel channel);
 
     ChannelDto toDto(Channel channel);
+
 }

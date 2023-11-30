@@ -14,6 +14,7 @@ import vlad.kuchuk.clevertecvideohostingapi.validator.PersonValidation;
 @Accessors(chain = true)
 @PersonValidation
 public class PersonDto {
+    private Long id;
     @Size(max = 64)
     private String nickname;
     @Size(max = 64)
