@@ -10,6 +10,10 @@ import lombok.ToString;
 import org.apache.commons.lang3.builder.EqualsExclude;
 import org.apache.commons.lang3.builder.HashCodeExclude;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.time.ZonedDateTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -27,6 +31,7 @@ public class Channel {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "author_id", referencedColumnName = "id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Person author;
 
     @ManyToMany

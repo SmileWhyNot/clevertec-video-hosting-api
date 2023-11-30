@@ -36,12 +36,9 @@ public class PersonService {
     }
 
     public void deletePerson(Long id) {
-        personRepository.findById(id).ifPresentOrElse(
-                personRepository::delete,
-                () -> {
-                    throw new PersonOperationException("Failed to delete person");
-                }
-        );
+        Optional.of(getPersonById(id))
+                .map(personMapper::toEntity)
+                .ifPresent(personRepository::delete);
     }
 
     public PersonDto getPersonById(Long id) {
