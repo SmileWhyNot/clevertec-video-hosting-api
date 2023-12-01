@@ -4,7 +4,7 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
 
-    <changeSet id="27-11-2023-create-subscription-table" author="vlad">
+    <changeSet id="1-27-11-2023-create-subscription-table" author="vlad">
         <createTable tableName="subscriptions">
             <column name="person_id" type="bigint">
                 <constraints nullable="false" foreignKeyName="subscription_person_id_fk" references="person(id)"/>
@@ -12,11 +12,13 @@
             <column name="channel_id" type="bigint">
                 <constraints nullable="false" foreignKeyName="subscription_channel_id_fk" references="channel(id)"/>
             </column>
-            <column name="id" type="bigint">
-                <constraints primaryKey="true" uniqueConstraintName="unique_subscription" deleteCascade="true"
-                             referencedColumnNames="person_id, channel_id" unique="true"/>
-            </column>
         </createTable>
+    </changeSet>
+    <changeSet id="2-27-11-2023-add-subscription-constraint" author="vlad">
+        <addPrimaryKey columnNames="person_id, channel_id"
+                       constraintName="id"
+                       tableName="subscriptions"
+                       validate="true"/>
     </changeSet>
 
 </databaseChangeLog>

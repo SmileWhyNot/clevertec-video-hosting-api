@@ -8,6 +8,6 @@ public interface PersonMapper {
     Person toEntity(PersonDto personDto);
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     Person updateFromDto(PersonDto personDto, @MappingTarget Person person);
-
+    @Mapping(target = "subscriptions", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     PersonDto toDto(Person person);
 }

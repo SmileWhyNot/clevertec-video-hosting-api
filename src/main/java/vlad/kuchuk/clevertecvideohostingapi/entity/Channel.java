@@ -12,10 +12,11 @@ import org.apache.commons.lang3.builder.HashCodeExclude;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.time.ZonedDateTime;
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @AllArgsConstructor
@@ -29,21 +30,14 @@ public class Channel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "author_id", referencedColumnName = "id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Person author;
 
-    @ManyToMany
-    @JoinTable(
-            name = "subscriptions",
-            joinColumns = { @JoinColumn(name = "channel_id") },
-            inverseJoinColumns = { @JoinColumn(name = "person_id") }
-    )
+    @ManyToMany(mappedBy = "subscriptions")
     @ToString.Exclude
-    @EqualsExclude
-    @HashCodeExclude
-    private Set<Person> subscribers = new HashSet<>();
+    private Set<Person> subscribers;
 
     @Column(unique = true)
     @Size(max = 64)
@@ -66,4 +60,19 @@ public class Channel {
 
     @Size(max = 50)
     private String category;
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (object == null || getClass() != object.getClass()) return false;
+        Channel channel = (Channel) object;
+        return Objects.equals(id, channel.id) && Objects.equals(name, channel.name) && Objects.equals(description, channel.description) && Objects.equals(creationDate, channel.creationDate) && Objects.equals(lang, channel.lang) && Arrays.equals(avatar, channel.avatar) && Objects.equals(category, channel.category);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(id, name, description, creationDate, lang, category);
+        result = 31 * result + Arrays.hashCode(avatar);
+        return result;
+    }
 }
