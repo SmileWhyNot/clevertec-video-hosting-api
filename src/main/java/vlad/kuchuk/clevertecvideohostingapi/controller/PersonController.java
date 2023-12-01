@@ -8,12 +8,19 @@ import org.springframework.web.bind.annotation.*;
 import vlad.kuchuk.clevertecvideohostingapi.dto.PersonDto;
 import vlad.kuchuk.clevertecvideohostingapi.service.PersonService;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/person")
 @AllArgsConstructor
 public class PersonController {
 
     private final PersonService personService;
+
+    @GetMapping("/{id}/subscriptions")
+    public List<String> getPersonSubscriptionNames(@PathVariable("id") Long id) {
+        return personService.getSubscriptionNames(id);
+    }
 
     @PostMapping("/register")
     public ResponseEntity<PersonDto> registerPerson(
