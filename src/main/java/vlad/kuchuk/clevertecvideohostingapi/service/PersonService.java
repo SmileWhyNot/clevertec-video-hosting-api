@@ -6,9 +6,11 @@ import vlad.kuchuk.clevertecvideohostingapi.commonExceptionUtil.exceptions.Perso
 import vlad.kuchuk.clevertecvideohostingapi.commonExceptionUtil.exceptions.PersonOperationException;
 import vlad.kuchuk.clevertecvideohostingapi.dto.PersonDto;
 import vlad.kuchuk.clevertecvideohostingapi.dto.PersonMapper;
+import vlad.kuchuk.clevertecvideohostingapi.entity.Channel;
 import vlad.kuchuk.clevertecvideohostingapi.entity.Person;
 import vlad.kuchuk.clevertecvideohostingapi.repository.PersonRepository;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -47,13 +49,6 @@ public class PersonService {
                 .orElseThrow(() -> new PersonNotFoundException("No person with id=" + id));
     }
 
-    public PersonDto getPersonWithSubscriptionsById(Long id) {
-        Optional<Person> personWithSubscriptionsById = personRepository.findPersonWithSubscriptionsById(id);
-        return personMapper.toDto(personWithSubscriptionsById.get());
-//                .map(personMapper::toDto)
-//                .orElseThrow(() -> new PersonNotFoundException("No person with id=" + id));
-    }
-
     public Optional<PersonDto> getPersonByEmail(String email) {
         return personRepository.findByEmail(email)
                 .map(personMapper::toDto);
@@ -62,5 +57,11 @@ public class PersonService {
     public Optional<PersonDto> getPersonByNickname(String nickname) {
         return personRepository.findByNickname(nickname)
                 .map(personMapper::toDto);
+    }
+
+    public List<String> getSubscriptionNames(Long id) {
+        return personRepository.findSubscribedChannelsById(id).stream()
+                .map(Channel::getName)
+                .toList();
     }
 }
