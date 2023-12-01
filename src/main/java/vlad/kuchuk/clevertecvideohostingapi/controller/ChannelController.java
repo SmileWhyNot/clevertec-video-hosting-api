@@ -12,6 +12,7 @@ import vlad.kuchuk.clevertecvideohostingapi.commonExceptionUtil.exceptions.Photo
 import vlad.kuchuk.clevertecvideohostingapi.dto.FullChannelInfoDto;
 import vlad.kuchuk.clevertecvideohostingapi.service.ChannelService;
 import vlad.kuchuk.clevertecvideohostingapi.utils.ImageUtils;
+import vlad.kuchuk.clevertecvideohostingapi.validator.FileValidation;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -27,7 +28,7 @@ public class ChannelController {
     @PostMapping
     public ResponseEntity<ChannelDto> createChannel(
             @RequestPart("channel") @Valid ChannelDto channelDto,
-            @RequestPart(value = "avatar", required = false) MultipartFile file
+            @RequestPart(value = "avatar", required = false) @FileValidation(fileExtensions = {"jpeg", "jpg", "png", "gif"}) MultipartFile file
             ) {
         try {
             if (Objects.nonNull(file)) {
@@ -55,7 +56,7 @@ public class ChannelController {
     public ResponseEntity<FullChannelInfoDto> updateChannel(
             @PathVariable("id") Long id,
             @RequestPart(value = "channel", required = false) @Valid ChannelDto channelDto,
-            @RequestPart(value = "avatar", required = false) MultipartFile file
+            @RequestPart(value = "avatar", required = false) @FileValidation(fileExtensions = {"jpeg", "jpg", "png", "gif"}) MultipartFile file
     ) {
         try {
             if (Objects.nonNull(file)) {
