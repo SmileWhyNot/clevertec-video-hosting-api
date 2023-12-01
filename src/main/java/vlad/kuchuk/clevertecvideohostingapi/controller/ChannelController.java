@@ -2,6 +2,7 @@ package vlad.kuchuk.clevertecvideohostingapi.controller;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,9 +11,11 @@ import vlad.kuchuk.clevertecvideohostingapi.dto.ChannelDto;
 import vlad.kuchuk.clevertecvideohostingapi.commonExceptionUtil.exceptions.PhotoOperationException;
 import vlad.kuchuk.clevertecvideohostingapi.dto.FullChannelInfoDto;
 import vlad.kuchuk.clevertecvideohostingapi.service.ChannelService;
+import vlad.kuchuk.clevertecvideohostingapi.utils.ImageUtils;
 
 import java.io.IOException;
 import java.util.Objects;
+import java.util.zip.DataFormatException;
 
 @RestController
 @RequestMapping("/api/v1/channel")
@@ -28,7 +31,7 @@ public class ChannelController {
             ) {
         try {
             if (Objects.nonNull(file)) {
-                channelDto.setAvatar(file.getBytes());
+                channelDto.setAvatar(ImageUtils.compressImage(file.getBytes()));
             }
             ChannelDto createdChannelDto = channelService.saveChannel(channelDto);
             return ResponseEntity.status(HttpStatus.CREATED)
@@ -38,25 +41,29 @@ public class ChannelController {
         }
     }
 
+    @SneakyThrows({PhotoOperationException.class, DataFormatException.class, IOException.class})
     @GetMapping("/{id}")
     public ResponseEntity<FullChannelInfoDto> getFullChannelInfo(@PathVariable("id") Long id) {
+        FullChannelInfoDto fullChannelInfo = channelService.getFullChannelInfo(id);
+        fullChannelInfo.setAvatar(ImageUtils.decompressImage(fullChannelInfo.getAvatar()));
         return ResponseEntity.status(HttpStatus.OK)
                 .body(channelService.getFullChannelInfo(id));
     }
 
+    @SneakyThrows
     @PutMapping("/{id}")
-    public ResponseEntity<ChannelDto> updateChannel(
+    public ResponseEntity<FullChannelInfoDto> updateChannel(
             @PathVariable("id") Long id,
-            @RequestPart("channel") @Valid ChannelDto channelDto,
+            @RequestPart(value = "channel", required = false) @Valid ChannelDto channelDto,
             @RequestPart(value = "avatar", required = false) MultipartFile file
     ) {
         try {
             if (Objects.nonNull(file)) {
-                channelDto.setAvatar(file.getBytes());
+                channelDto.setAvatar(ImageUtils.compressImage(file.getBytes()));
             }
-            ChannelDto updatedChannelDto = channelService.updateChannel(channelDto, id);
+            FullChannelInfoDto updatedChannelDto = channelService.updateChannel(channelDto, id);
             return ResponseEntity.status(HttpStatus.OK)
-                    .body(updatedChannelDto);
+                    .body(updatedChannelDto.setAvatar(ImageUtils.decompressImage(updatedChannelDto.getAvatar())));
         } catch (IOException e) {
             throw new PhotoOperationException(e.getMessage());
         }
