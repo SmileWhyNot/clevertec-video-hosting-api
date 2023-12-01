@@ -12,5 +12,8 @@ public interface ChannelMapper {
     Channel updateFromDto(ChannelDto channelDto, @MappingTarget Channel channel);
 
     ChannelDto toDto(Channel channel);
+    @Mapping(target = "avatar", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    @Mapping(target = "subscribersCount", expression = "java(channel.getSubscribers().size())")
+    FullChannelInfoDto toFullInfoDto(Channel channel);
 
 }

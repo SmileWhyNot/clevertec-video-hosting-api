@@ -5,6 +5,7 @@ import vlad.kuchuk.clevertecvideohostingapi.entity.Person;
 
 @Mapper
 public interface PersonMapper {
+    @Mapping(target = "subscriptions", source = "subscriptions")
     Person toEntity(PersonDto personDto);
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     Person updateFromDto(PersonDto personDto, @MappingTarget Person person);

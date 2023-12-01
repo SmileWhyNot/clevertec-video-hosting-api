@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import vlad.kuchuk.clevertecvideohostingapi.dto.ChannelDto;
 import vlad.kuchuk.clevertecvideohostingapi.commonExceptionUtil.exceptions.PhotoOperationException;
+import vlad.kuchuk.clevertecvideohostingapi.dto.FullChannelInfoDto;
 import vlad.kuchuk.clevertecvideohostingapi.service.ChannelService;
 
 import java.io.IOException;
@@ -38,9 +39,9 @@ public class ChannelController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ChannelDto> getChannel(@PathVariable("id") Long id) {
+    public ResponseEntity<FullChannelInfoDto> getFullChannelInfo(@PathVariable("id") Long id) {
         return ResponseEntity.status(HttpStatus.OK)
-                .body(channelService.getChannelById(id));
+                .body(channelService.getFullChannelInfo(id));
     }
 
     @PutMapping("/{id}")

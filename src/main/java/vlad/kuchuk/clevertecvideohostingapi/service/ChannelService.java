@@ -2,17 +2,18 @@ package vlad.kuchuk.clevertecvideohostingapi.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import vlad.kuchuk.clevertecvideohostingapi.dto.ChannelDto;
-import vlad.kuchuk.clevertecvideohostingapi.dto.ChannelMapper;
-import vlad.kuchuk.clevertecvideohostingapi.dto.PersonDto;
-import vlad.kuchuk.clevertecvideohostingapi.dto.PersonMapper;
+import vlad.kuchuk.clevertecvideohostingapi.dto.*;
 import vlad.kuchuk.clevertecvideohostingapi.commonExceptionUtil.exceptions.ChannelNotFoundException;
 import vlad.kuchuk.clevertecvideohostingapi.commonExceptionUtil.exceptions.ChannelOperationException;
 import vlad.kuchuk.clevertecvideohostingapi.commonExceptionUtil.exceptions.PersonNotFoundException;
+import vlad.kuchuk.clevertecvideohostingapi.entity.Channel;
+import vlad.kuchuk.clevertecvideohostingapi.entity.Person;
 import vlad.kuchuk.clevertecvideohostingapi.repository.ChannelRepository;
 
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
+import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 @Service
@@ -64,5 +65,11 @@ public class ChannelService {
     public Optional<ChannelDto> getChannelByName(String name) {
         return channelRepository.findByName(name)
                 .map(channelMapper::toDto);
+    }
+
+    public FullChannelInfoDto getFullChannelInfo(Long id) {
+         return channelRepository.findById(id)
+                 .map(channelMapper::toFullInfoDto)
+                 .orElseThrow(() -> new PersonNotFoundException("No channel with id=" + id));
     }
 }
