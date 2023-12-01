@@ -2,18 +2,14 @@ package vlad.kuchuk.clevertecvideohostingapi.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import vlad.kuchuk.clevertecvideohostingapi.dto.*;
 import vlad.kuchuk.clevertecvideohostingapi.commonExceptionUtil.exceptions.ChannelNotFoundException;
 import vlad.kuchuk.clevertecvideohostingapi.commonExceptionUtil.exceptions.ChannelOperationException;
 import vlad.kuchuk.clevertecvideohostingapi.commonExceptionUtil.exceptions.PersonNotFoundException;
-import vlad.kuchuk.clevertecvideohostingapi.entity.Channel;
-import vlad.kuchuk.clevertecvideohostingapi.entity.Person;
+import vlad.kuchuk.clevertecvideohostingapi.dto.*;
 import vlad.kuchuk.clevertecvideohostingapi.repository.ChannelRepository;
 
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Set;
-import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 @Service
@@ -41,11 +37,11 @@ public class ChannelService {
                 .orElseThrow(() -> new ChannelOperationException("Failed to create new person account"));
     }
 
-    public ChannelDto updateChannel(ChannelDto updatedChannel, Long id) {
+    public FullChannelInfoDto updateChannel(ChannelDto updatedChannel, Long id) {
         return channelRepository.findById(id)
                 .map(p -> channelMapper.updateFromDto(updatedChannel, p))
                 .map(channelRepository::save)
-                .map(channelMapper::toDto)
+                .map(channelMapper::toFullInfoDto)
                 .orElseThrow(() -> new ChannelNotFoundException("No channel with id=" + id));
     }
 

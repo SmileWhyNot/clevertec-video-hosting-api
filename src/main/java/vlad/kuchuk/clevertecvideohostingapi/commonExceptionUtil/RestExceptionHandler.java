@@ -13,6 +13,8 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import vlad.kuchuk.clevertecvideohostingapi.commonExceptionUtil.exceptions.*;
 
+import java.util.zip.DataFormatException;
+
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
@@ -55,7 +57,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiError);
     }
 
-    @ExceptionHandler(PhotoOperationException.class)
+    @ExceptionHandler({PhotoOperationException.class, DataFormatException.class})
     public ResponseEntity<ApiError> handlePhotoOperationException(PhotoOperationException ex) {
         ApiError apiError = new ApiError(BAD_REQUEST, ex.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiError);
