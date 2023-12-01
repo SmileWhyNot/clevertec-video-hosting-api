@@ -21,4 +21,9 @@ public class SubscriptionsController {
     public ResponseEntity<SubscriptionDto> subscribeNewChannel(@RequestBody @Valid SubscriptionDto subscriptionDto) {
         return ResponseEntity.ok(subscriptionsService.subscribe(subscriptionDto));
     }
+
+    @PostMapping("/unsubscribe")
+    public void unsubscribeChannel(@RequestBody @Valid SubscriptionDto subscriptionDto) {
+        subscriptionsService.unsubscribe(subscriptionDto);
+    }
 }

@@ -4,12 +4,12 @@ import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import vlad.kuchuk.clevertecvideohostingapi.commonExceptionUtil.exceptions.InvalidLangException;
-import vlad.kuchuk.clevertecvideohostingapi.dto.ChannelDto;
-import vlad.kuchuk.clevertecvideohostingapi.dto.PersonDto;
 import vlad.kuchuk.clevertecvideohostingapi.commonExceptionUtil.exceptions.AlreadyExistsException;
 import vlad.kuchuk.clevertecvideohostingapi.commonExceptionUtil.exceptions.InvalidChannelCategoryException;
+import vlad.kuchuk.clevertecvideohostingapi.commonExceptionUtil.exceptions.InvalidLangException;
 import vlad.kuchuk.clevertecvideohostingapi.commonExceptionUtil.exceptions.PersonNotFoundException;
+import vlad.kuchuk.clevertecvideohostingapi.dto.ChannelDto;
+import vlad.kuchuk.clevertecvideohostingapi.dto.PersonDto;
 import vlad.kuchuk.clevertecvideohostingapi.service.ChannelService;
 import vlad.kuchuk.clevertecvideohostingapi.service.PersonService;
 

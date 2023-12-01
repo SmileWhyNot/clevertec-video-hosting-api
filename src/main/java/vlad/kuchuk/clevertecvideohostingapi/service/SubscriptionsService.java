@@ -12,9 +12,6 @@ import vlad.kuchuk.clevertecvideohostingapi.entity.Person;
 import vlad.kuchuk.clevertecvideohostingapi.repository.ChannelRepository;
 import vlad.kuchuk.clevertecvideohostingapi.repository.PersonRepository;
 
-import java.util.Optional;
-import java.util.Set;
-
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -25,11 +22,41 @@ public class SubscriptionsService {
 
     @Transactional
     public SubscriptionDto subscribe(SubscriptionDto subscriptionDto) {
-        personRepository.findById(subscriptionDto.getPersonId())
-                .ifPresent(person ->
-                        channelRepository.findById(subscriptionDto.getChannelId())
-                                .ifPresent(channel -> person.getSubscriptions().add(channel)));
+        Person person = getPersonById(subscriptionDto.getPersonId());
+        Channel channel = getChannelById(subscriptionDto.getChannelId());
 
+        validateSubscription(person, channel);
+
+        person.getSubscriptions().add(channel);
         return subscriptionDto;
+    }
+
+    @Transactional
+    public void unsubscribe(SubscriptionDto subscriptionDto) {
+        Person person = getPersonById(subscriptionDto.getPersonId());
+        Channel channel = getChannelById(subscriptionDto.getChannelId());
+
+        if (!person.getSubscriptions().contains(channel))
+            throw new PersonOperationException("You haven't subscribed to this channel");
+
+        person.getSubscriptions().remove(channel);
+    }
+
+    private Person getPersonById(Long personId) {
+        return personRepository.findById(personId)
+                .orElseThrow(() -> new PersonNotFoundException("Person not found with id=" + personId));
+    }
+
+    private Channel getChannelById(Long channelId) {
+        return channelRepository.findById(channelId)
+                .orElseThrow(() -> new ChannelNotFoundException("Channel not found with id=" + channelId));
+    }
+
+    private void validateSubscription(Person person, Channel channel) {
+        if (channel.getAuthor().equals(person))
+            throw new PersonOperationException("Channel author can't subscribe to his channel");
+
+        if (person.getSubscriptions().contains(channel))
+            throw new PersonOperationException("You have already subscribed to this channel");
     }
 }
