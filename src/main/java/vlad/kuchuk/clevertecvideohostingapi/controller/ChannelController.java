@@ -26,7 +26,7 @@ public class ChannelController {
             @RequestPart(value = "avatar", required = false) MultipartFile file
             ) {
         try {
-            if (!file.isEmpty()) {
+            if (Objects.nonNull(file)) {
                 channelDto.setAvatar(file.getBytes());
             }
             ChannelDto createdChannelDto = channelService.saveChannel(channelDto);

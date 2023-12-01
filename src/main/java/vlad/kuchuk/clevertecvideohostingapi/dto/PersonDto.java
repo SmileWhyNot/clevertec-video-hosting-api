@@ -1,12 +1,14 @@
 package vlad.kuchuk.clevertecvideohostingapi.dto;
 
-import jakarta.validation.constraints.NotNull;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 import vlad.kuchuk.clevertecvideohostingapi.validator.PersonValidation;
+
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -23,4 +25,5 @@ public class PersonDto {
     private String email;
     @Size(max = 50)
     private String password;
+    private Set<ChannelDto> subscriptions;
 }
