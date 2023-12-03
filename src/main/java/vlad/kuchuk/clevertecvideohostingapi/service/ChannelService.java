@@ -1,15 +1,23 @@
 package vlad.kuchuk.clevertecvideohostingapi.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import vlad.kuchuk.clevertecvideohostingapi.commonExceptionUtil.exceptions.ChannelNotFoundException;
 import vlad.kuchuk.clevertecvideohostingapi.commonExceptionUtil.exceptions.ChannelOperationException;
 import vlad.kuchuk.clevertecvideohostingapi.commonExceptionUtil.exceptions.PersonNotFoundException;
 import vlad.kuchuk.clevertecvideohostingapi.dto.*;
+import vlad.kuchuk.clevertecvideohostingapi.entity.Channel;
 import vlad.kuchuk.clevertecvideohostingapi.repository.ChannelRepository;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Service
@@ -30,6 +38,7 @@ public class ChannelService {
                     PersonDto author = personService.getPersonByEmail(channel.getAuthor().getEmail())
                             .orElseThrow(() -> new PersonNotFoundException("No person with email"));
                     channel.setAuthor(personMapper.toEntity(author));
+                    channel.setCategory(channel.getCategory().toLowerCase());
                     return channelRepository.save(channel);
                 })
                 .map(channelMapper::toDto)
@@ -67,5 +76,22 @@ public class ChannelService {
          return channelRepository.findById(id)
                  .map(channelMapper::toFullInfoDto)
                  .orElseThrow(() -> new PersonNotFoundException("No channel with id=" + id));
+    }
+
+    public Page<FilteredChannelInfoDto> getAllChannelsSortedPageable(FilteredPageableChannelRequest request) {
+        Page<Channel> ignoreCase = channelRepository.findByNameIgnoreCaseAndLangIgnoreCaseAndCategoryIgnoreCase(
+                request.getName(),
+                request.getLang(),
+                request.getCategory(),
+                request.toPageable()
+        );
+        return ignoreCase.map(channelMapper::toFilteredChannelInfoDto);
+
+//        return channelRepository.findByNameIgnoreCaseAndLangIgnoreCaseAndCategoryIgnoreCase(
+//                        request.getName(),
+//                        request.getLang(),
+//                        request.getCategory(),
+//                        request.toPageable())
+//                .map(channelMapper::toFilteredChannelInfoDto);
     }
 }
