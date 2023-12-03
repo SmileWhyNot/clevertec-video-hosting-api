@@ -12,6 +12,8 @@ import vlad.kuchuk.clevertecvideohostingapi.entity.Person;
 import vlad.kuchuk.clevertecvideohostingapi.repository.ChannelRepository;
 import vlad.kuchuk.clevertecvideohostingapi.repository.PersonRepository;
 
+import java.util.stream.Stream;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -22,13 +24,17 @@ public class SubscriptionsService {
 
     @Transactional
     public SubscriptionDto subscribe(SubscriptionDto subscriptionDto) {
-        Person person = getPersonById(subscriptionDto.getPersonId());
-        Channel channel = getChannelById(subscriptionDto.getChannelId());
-
-        validateSubscription(person, channel);
-
-        person.getSubscriptions().add(channel);
-        return subscriptionDto;
+        return Stream.of(subscriptionDto)
+                .map(dto -> {
+                            Person person = getPersonById(dto.getPersonId());
+                            Channel channel = getChannelById(dto.getChannelId());
+                            validateSubscription(person, channel);
+                            person.getSubscriptions().add(channel);
+                            return dto;
+                        }
+                )
+                .findFirst()
+                .orElseThrow(() -> new PersonOperationException("Failed to subscribe"));
     }
 
     @Transactional

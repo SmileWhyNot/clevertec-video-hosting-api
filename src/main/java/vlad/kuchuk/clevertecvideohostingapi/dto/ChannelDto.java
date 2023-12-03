@@ -1,15 +1,12 @@
 package vlad.kuchuk.clevertecvideohostingapi.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
-import org.aspectj.lang.annotation.Before;
-import org.springframework.web.multipart.MultipartFile;
 import vlad.kuchuk.clevertecvideohostingapi.validator.ChannelValidation;
 
 import java.time.ZonedDateTime;

@@ -8,8 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import vlad.kuchuk.clevertecvideohostingapi.dto.ChannelDto;
 import vlad.kuchuk.clevertecvideohostingapi.commonExceptionUtil.exceptions.PhotoOperationException;
+import vlad.kuchuk.clevertecvideohostingapi.dto.ChannelDto;
 import vlad.kuchuk.clevertecvideohostingapi.dto.FilteredChannelInfoDto;
 import vlad.kuchuk.clevertecvideohostingapi.dto.FilteredPageableChannelRequest;
 import vlad.kuchuk.clevertecvideohostingapi.dto.FullChannelInfoDto;
@@ -18,7 +18,6 @@ import vlad.kuchuk.clevertecvideohostingapi.utils.ImageUtils;
 import vlad.kuchuk.clevertecvideohostingapi.validator.FileValidation;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Objects;
 import java.util.zip.DataFormatException;
 

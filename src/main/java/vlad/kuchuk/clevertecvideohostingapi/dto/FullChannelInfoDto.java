@@ -1,6 +1,5 @@
 package vlad.kuchuk.clevertecvideohostingapi.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
