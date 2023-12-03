@@ -16,4 +16,7 @@ public interface ChannelMapper {
     @Mapping(target = "subscribersCount", expression = "java(channel.getSubscribers().size())")
     FullChannelInfoDto toFullInfoDto(Channel channel);
 
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    @Mapping(target = "subscribersCount", expression = "java(channel.getSubscribers().size())")
+    FilteredChannelInfoDto toFilteredChannelInfoDto(Channel channel);
 }
