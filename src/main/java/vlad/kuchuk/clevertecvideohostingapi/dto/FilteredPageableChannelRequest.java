@@ -27,6 +27,14 @@ public class FilteredPageableChannelRequest {
     @Positive
     private Integer size = 5;
 
+    public void setLang(String lang) {
+        this.lang = (lang == null) ? null : lang.toLowerCase();
+    }
+
+    public void setCategory(String category) {
+        this.category = (category == null) ? null : category.toLowerCase();
+    }
+
     public Pageable toPageable() {
         return PageRequest.of(page, size);
     }

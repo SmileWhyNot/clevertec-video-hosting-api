@@ -18,7 +18,7 @@ public interface ChannelRepository extends JpaRepository<Channel, Long> {
             "where (:name is null or c.name = :name) " +
             "and (:lang is null or c.lang = :lang) " +
             "and (:category is null or c.category = :category)")
-    Page<Channel> findByNameIgnoreCaseAndLangIgnoreCaseAndCategoryIgnoreCase(
+    Page<Channel> findByNameLangCategoryPageable(
             @Param("name") String name,
             @Param("lang") String lang,
             @Param("category") String category,
