@@ -1,4 +1,4 @@
-package vlad.kuchuk.clevertecvideohostingapi.dto;
+package vlad.kuchuk.clevertecvideohostingapi.dto.request;
 
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
@@ -23,7 +23,7 @@ public class FilteredPageableChannelRequest {
     @Size(max = 50)
     private String category;
     @PositiveOrZero
-    private Integer page = 1;
+    private Integer page = 0;
     @Positive
     private Integer size = 5;
 

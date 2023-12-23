@@ -5,14 +5,15 @@ import jakarta.validation.ConstraintValidatorContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import vlad.kuchuk.clevertecvideohostingapi.commonExceptionUtil.exceptions.AlreadyExistsException;
-import vlad.kuchuk.clevertecvideohostingapi.dto.PersonDto;
+import vlad.kuchuk.clevertecvideohostingapi.dto.request.PersonRequest;
+import vlad.kuchuk.clevertecvideohostingapi.dto.response.PersonResponse;
 import vlad.kuchuk.clevertecvideohostingapi.service.PersonService;
 
 import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
-public class PersonValidator implements ConstraintValidator<PersonValidation, PersonDto> {
+public class PersonValidator implements ConstraintValidator<PersonValidation, PersonRequest> {
 
     private final PersonService personService;
 
@@ -22,9 +23,9 @@ public class PersonValidator implements ConstraintValidator<PersonValidation, Pe
     }
 
     @Override
-    public boolean isValid(PersonDto value, ConstraintValidatorContext context) {
-        Optional<PersonDto> existingPersonByEmail = personService.getPersonByEmail(value.getEmail());
-        Optional<PersonDto> existingPersonByNickname = personService.getPersonByNickname(value.getNickname());
+    public boolean isValid(PersonRequest value, ConstraintValidatorContext context) {
+        Optional<PersonResponse> existingPersonByEmail = personService.getPersonByEmail(value.getEmail());
+        Optional<PersonResponse> existingPersonByNickname = personService.getPersonByNickname(value.getNickname());
 
         existingPersonByEmail.ifPresent(personDto -> {
             throw new AlreadyExistsException("Email is already taken");

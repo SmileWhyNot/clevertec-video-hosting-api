@@ -3,15 +3,15 @@ package vlad.kuchuk.clevertecvideohostingapi.controller;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import vlad.kuchuk.clevertecvideohostingapi.dto.PersonDto;
+import vlad.kuchuk.clevertecvideohostingapi.dto.request.PersonRequest;
+import vlad.kuchuk.clevertecvideohostingapi.dto.response.PersonResponse;
 import vlad.kuchuk.clevertecvideohostingapi.service.PersonService;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/person")
+@RequestMapping("/api/v1/people")
 @AllArgsConstructor
 public class PersonController {
 
@@ -23,22 +23,19 @@ public class PersonController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<PersonDto> registerPerson(
-            @RequestBody @Valid PersonDto personDto
+    @ResponseStatus(HttpStatus.CREATED)
+    public PersonResponse registerPerson(
+            @RequestBody @Valid PersonRequest personRequest
     ) {
-        PersonDto createdPersonDto = personService.savePerson(personDto);
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(createdPersonDto);
+        return personService.savePerson(personRequest);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PersonDto> updatePerson(
-            @RequestBody @Valid PersonDto updatedPerson,
+    public PersonResponse updatePerson(
+            @RequestBody @Valid PersonRequest updatedPerson,
             @PathVariable("id") Long id
     ) {
-        PersonDto updatedPersonDto = personService.updatePerson(updatedPerson, id);
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(updatedPersonDto);
+        return personService.updatePerson(updatedPerson, id);
     }
 
     @DeleteMapping("/{id}")

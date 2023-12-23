@@ -5,8 +5,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import vlad.kuchuk.clevertecvideohostingapi.commonExceptionUtil.exceptions.PersonNotFoundException;
 import vlad.kuchuk.clevertecvideohostingapi.commonExceptionUtil.exceptions.PersonOperationException;
-import vlad.kuchuk.clevertecvideohostingapi.dto.PersonDto;
+import vlad.kuchuk.clevertecvideohostingapi.dto.request.PersonRequest;
 import vlad.kuchuk.clevertecvideohostingapi.dto.PersonMapper;
+import vlad.kuchuk.clevertecvideohostingapi.dto.response.PersonResponse;
 import vlad.kuchuk.clevertecvideohostingapi.entity.Channel;
 import vlad.kuchuk.clevertecvideohostingapi.repository.PersonRepository;
 
@@ -23,8 +24,8 @@ public class PersonService {
     private final PersonMapper personMapper;
 
     @Transactional
-    public PersonDto savePerson(PersonDto personDto) {
-        return Stream.of(personMapper.toEntity(personDto))
+    public PersonResponse savePerson(PersonRequest personRequest) {
+        return Stream.of(personMapper.toEntity(personRequest))
                 .map(personRepository::save)
                 .map(personMapper::toDto)
                 .findFirst()
@@ -32,7 +33,7 @@ public class PersonService {
     }
 
     @Transactional
-    public PersonDto updatePerson(PersonDto updatedPerson, Long id) {
+    public PersonResponse updatePerson(PersonRequest updatedPerson, Long id) {
         return personRepository.findById(id)
                 .map(p -> personMapper.updateFromDto(updatedPerson, p))
                 .map(personRepository::save)
@@ -42,29 +43,22 @@ public class PersonService {
 
     @Transactional
     public void deletePerson(Long id) {
-        Optional.of(getPersonById(id))
-                .map(personMapper::toEntity)
-                .ifPresent(personRepository::delete);
+        personRepository.deleteById(id);
     }
 
-    public PersonDto getPersonById(Long id) {
-        return personRepository.findById(id)
-                .map(personMapper::toDto)
-                .orElseThrow(() -> new PersonNotFoundException("No person with id=" + id));
-    }
-
-    public Optional<PersonDto> getPersonByEmail(String email) {
+    public Optional<PersonResponse> getPersonByEmail(String email) {
         return personRepository.findByEmail(email)
                 .map(personMapper::toDto);
     }
 
-    public Optional<PersonDto> getPersonByNickname(String nickname) {
+    public Optional<PersonResponse> getPersonByNickname(String nickname) {
         return personRepository.findByNickname(nickname)
                 .map(personMapper::toDto);
     }
 
     public List<String> getSubscriptionNames(Long id) {
-        return personRepository.findSubscribedChannelsById(id).stream()
+        return personRepository.findById(id).stream()
+                .flatMap(p -> p.getSubscriptions().stream())
                 .map(Channel::getName)
                 .toList();
     }

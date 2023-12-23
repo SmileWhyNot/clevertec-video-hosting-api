@@ -1,4 +1,4 @@
-package vlad.kuchuk.clevertecvideohostingapi.dto;
+package vlad.kuchuk.clevertecvideohostingapi.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.PastOrPresent;
@@ -16,15 +16,14 @@ import java.time.ZonedDateTime;
 @NoArgsConstructor
 @Accessors(chain = true)
 @ChannelValidation(message = "Channel data not valid")
-public class ChannelDto {
-    private Long id;
+public class ChannelRequest {
     @Size(max = 64)
     private String name;
     @Size(max = 100)
     private String description;
     @PastOrPresent
     private ZonedDateTime creationDate;
-    private PersonDto author;
+    private Long authorId;
     @Size(max = 5)
     private String lang;
     @JsonIgnore
